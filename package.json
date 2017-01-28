@@ -1,0 +1,33 @@
+{
+  "name": "weblog",
+  "version": "1.0.0",
+  "description": "e2e tool for testing network traffic",
+  "scripts": {
+    "test": "jest --config jest.config.js",
+    "start": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tompascall/weblog.git"
+  },
+  "keywords": [
+    "e2e",
+    "network",
+    "traffic"
+  ],
+  "author": "tompascall",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tompascall/weblog/issues"
+  },
+  "homepage": "https://github.com/tompascall/weblog#readme",
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-jest": "^18.0.0",
+    "babel-loader": "^6.2.10",
+    "babel-polyfill": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "jest": "^18.1.0",
+    "webpack": "^1.14.0"
+  }
+}
