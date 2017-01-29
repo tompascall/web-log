@@ -16,7 +16,7 @@ function getDriver (type) {
       options = getChromeDriverOptions();
     break;
     default:
-      throw Error('unknown webdriver type');
+      throw Error('unknown type of webdriver');
   }
 
   return new webdriver.Builder()

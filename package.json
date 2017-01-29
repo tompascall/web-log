@@ -1,7 +1,7 @@
 {
   "name": "weblog",
   "version": "1.0.0",
-  "description": "e2e tool for testing network traffic",
+  "description": "e2e test utility for testing network traffic",
   "scripts": {
     "test": "jest --config jest.config.js",
     "start": "webpack --config webpack.config.js"
