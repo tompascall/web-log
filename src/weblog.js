@@ -12,7 +12,11 @@ const weblog = {
 
   getRawEntries ({ driver } = {}) {
     this.checkDriver({ driver });
-    return Promise.resolve();
+    return driver.manage().logs().get('performance');
+  },
+
+  getEntryMessage (entry) {
+    return JSON.parse(entry.toJSON().message);
   }
 };
 
