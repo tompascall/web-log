@@ -10,13 +10,17 @@ const weblog = {
     }
   },
 
+  getStringifiedEntryMessage (entry) {
+    return entry.toJSON().message;
+  },
+
   getRawEntries ({ driver } = {}) {
     this.checkDriver({ driver });
     return driver.manage().logs().get('performance');
   },
 
   getEntryMessage (entry) {
-    return JSON.parse(entry.toJSON().message);
+    return JSON.parse(this.getStringifiedEntryMessage(entry));
   }
 };
 

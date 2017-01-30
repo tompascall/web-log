@@ -86,16 +86,9 @@ describe('weblog', () => {
         expect(typeof entries[0].toJSON).toEqual('function');
       });
     });
-
-    it('an entry has a message propery', () => {
-      return weblog.getRawEntries({driver : mockDriver})
-      .then( (entries) => {
-        expect(typeof entries[0].message).toBeDefined;
-      });
-    });
   });
 
-  describe('getEntryMessage', () => {
+  describe('getStringifiedEntryMessage', () => {
     let mockEntry, entries;
 
     beforeEach( () => {
@@ -108,8 +101,29 @@ describe('weblog', () => {
 
     it('calls the mockEntry toJSON function', () => {
       spyOn(mockEntry, 'toJSON').and.callThrough();
-      weblog.getEntryMessage(mockEntry);
+      weblog.getStringifiedEntryMessage(mockEntry);
       expect(mockEntry.toJSON).toHaveBeenCalled();
+    });
+
+    it('gives back a parseable stringified object', () => {
+      let message = weblog.getStringifiedEntryMessage(mockEntry);
+      let parseMessage = function () {
+        return JSON.parse(message);  
+      };
+      expect(parseMessage).not.toThrow();
+    });
+
+  });
+
+  describe('getEntryMessage', () => {
+    let mockEntry, entries;
+
+    beforeEach( () => {
+      return weblog.getRawEntries({driver : mockDriver})
+      .then( (result) => {
+        entries = result;
+        mockEntry = entries[0];
+      });
     });
 
     it('returns the JSON parsed message property of the toJSON function call', () => {
