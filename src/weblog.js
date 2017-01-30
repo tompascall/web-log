@@ -24,9 +24,12 @@ const weblog = {
   },
 
 	filterEntriesByMethod ({entries = [], method} = {}) {
-    return entries.filter( (entry) => {
+    let filteredEntries = entries.filter( (entry) => {
       return entry.message.method === method;
     });
+    return {
+      filteredEntries
+    };
 	}
 };
 

@@ -46,7 +46,7 @@ describe('weblog', () => {
   it('weblog is an object', () => {
     expect({}.toString.call(weblog)).toBe('[object Object]');
   });
-  
+
   describe('checkDriver', () => {
     it('should throw err if not driver given or not set up properly', () => {
       let fakeCallWithoutDriver = () => {
@@ -60,7 +60,7 @@ describe('weblog', () => {
       expect(fakeCallWithDriver).not.toThrow();
     });
   });
-  
+
   describe('getRawEntries', () => {
     it('it is defined', () => {
       expect(weblog.getRawEntries).toBeDefined();
@@ -70,12 +70,12 @@ describe('weblog', () => {
       expect(weblog.getRawEntries).toThrow();
       let fakeCall = () => {
         weblog.getRawEntries({
-          driver : mockDriver 
+          driver : mockDriver
         });
       }
       expect(fakeCall).not.toThrow();
     });
-    
+
     it('calls driver.manage().logs().get() with `performance` type', () => {
       spyOn(mockDriver.manage().logs(), 'get').and.callThrough();
 
@@ -127,7 +127,7 @@ describe('weblog', () => {
     it('gives back a parseable stringified object', () => {
       let message = weblog.getStringifiedEntryMessage(mockEntry);
       let parseMessage = function () {
-        return JSON.parse(message);  
+        return JSON.parse(message);
       };
       expect(parseMessage).not.toThrow();
     });
@@ -162,9 +162,9 @@ describe('weblog', () => {
     });
 
    it('filters entries by method', () => {
-     let method = 'Network.requestWillBeSent';  
-     let filteredEntries = weblog.filterEntriesByMethod({ entries, method });
+     let method = 'Network.requestWillBeSent';
+     let filteredEntries = weblog.filterEntriesByMethod({ entries, method }).filteredEntries;
      expect(filteredEntries.length).toEqual(1);
-   }); 
+   });
   });
 });
