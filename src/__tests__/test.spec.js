@@ -3,15 +3,34 @@ jest.unmock('../weblog');
 
 describe('weblog', () => {
 
-  const mockEntries = [
-    {
-      message: {},
+  const mockEntryGenerator = function ({ message } = {}) {
+    return {
+      message,
       toJSON () {
         return {
           message: JSON.stringify( { message:this.message })
         }
       }
-    }
+    };
+  };
+
+  const mockEntries = [
+    mockEntryGenerator({ message: {
+      method: "Network.requestWillBeSent",
+      params: {
+        request: {
+          url: "www/testurl1?testparam1=1&testparam2=2"
+        }
+      }
+    }}),
+    mockEntryGenerator({message: {
+      method: "fakeMethod",
+      params: {
+        request: {
+          url: "www/testurl1?testparam1=1&testparam2=2"
+        }
+      }
+    }}),
   ];
 
   const mockDriver = {
@@ -130,7 +149,22 @@ describe('weblog', () => {
       let message = weblog.getEntryMessage(mockEntry);
       expect(message).toEqual({ message: mockEntry.message});
     });
-
   });
 
+  describe('filterByMethod', () => {
+    let entries;
+
+    beforeEach( () => {
+      return weblog.getRawEntries({driver : mockDriver})
+      .then( (result) => {
+        entries = result;
+      });
+    });
+
+   it('filters entries by method', () => {
+     let method = 'Network.requestWillBeSent';  
+     let filteredEntries = weblog.filterEntriesByMethod({ entries, method });
+     expect(filteredEntries.length).toEqual(1);
+   }); 
+  });
 });

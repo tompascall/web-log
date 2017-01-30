@@ -21,7 +21,13 @@ const weblog = {
 
   getEntryMessage (entry) {
     return JSON.parse(this.getStringifiedEntryMessage(entry));
-  }
+  },
+
+	filterEntriesByMethod ({entries = [], method} = {}) {
+    return entries.filter( (entry) => {
+      return entry.message.method === method;
+    });
+	}
 };
 
 export default weblog;
