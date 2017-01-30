@@ -1,8 +1,11 @@
 import weblog from '../weblog';
+import get from '../get';
+import filter from '../filter.js';
 jest.unmock('../weblog');
+jest.unmock('../get');
+jest.unmock('../filter');
 
 describe('weblog', () => {
-
   const mockEntryGenerator = function ({ message } = {}) {
     return {
       message,
@@ -50,10 +53,10 @@ describe('weblog', () => {
   describe('checkDriver', () => {
     it('should throw err if not driver given or not set up properly', () => {
       let fakeCallWithoutDriver = () => {
-        weblog.checkDriver();
+       get.checkDriver();
       };
       let fakeCallWithDriver = () => {
-        weblog.checkDriver({ driver: mockDriver});
+        get.checkDriver({ driver: mockDriver});
       };
 
       expect(fakeCallWithoutDriver).toThrow();
@@ -63,13 +66,13 @@ describe('weblog', () => {
 
   describe('getRawEntries', () => {
     it('it is defined', () => {
-      expect(weblog.getRawEntries).toBeDefined();
+      expect(get.getRawEntries).toBeDefined();
     });
 
     it('it needs a driver instance', () => {
-      expect(weblog.getRawEntries).toThrow();
+      expect(get.getRawEntries).toThrow();
       let fakeCall = () => {
-        weblog.getRawEntries({
+        get.getRawEntries({
           driver : mockDriver
         });
       }
@@ -79,28 +82,28 @@ describe('weblog', () => {
     it('calls driver.manage().logs().get() with `performance` type', () => {
       spyOn(mockDriver.manage().logs(), 'get').and.callThrough();
 
-      return weblog.getRawEntries({driver : mockDriver})
+      return get.getRawEntries({driver : mockDriver})
       .then( () => {
         expect(mockDriver.manage().logs().get).toHaveBeenCalledWith('performance');
       });
     });
 
     it('returns the result of driver.manage().logs().get()', () => {
-      return weblog.getRawEntries({driver : mockDriver})
+      return get.getRawEntries({driver : mockDriver})
       .then( () => {
-        expect(weblog.getRawEntries({driver : mockDriver})).toEqual(mockDriver.manage().logs().get('performance'));
+        expect(get.getRawEntries({driver : mockDriver})).toEqual(mockDriver.manage().logs().get('performance'));
       });
     });
 
     it('gives back an array', () => {
-      return weblog.getRawEntries({driver : mockDriver})
+      return get.getRawEntries({driver : mockDriver})
       .then( (entries) => {
         expect({}.toString.call(entries)).toEqual('[object Array]');
       });
     });
 
     it('an entry has a toJSON function', () => {
-      return weblog.getRawEntries({driver : mockDriver})
+      return get.getRawEntries({driver : mockDriver})
       .then( (entries) => {
         expect(typeof entries[0].toJSON).toEqual('function');
       });
@@ -111,7 +114,7 @@ describe('weblog', () => {
     let mockEntry, entries;
 
     beforeEach( () => {
-      return weblog.getRawEntries({driver : mockDriver})
+      return get.getRawEntries({driver : mockDriver})
       .then( (result) => {
         entries = result;
         mockEntry = entries[0];
@@ -120,12 +123,12 @@ describe('weblog', () => {
 
     it('calls the mockEntry toJSON function', () => {
       spyOn(mockEntry, 'toJSON').and.callThrough();
-      weblog.getStringifiedEntryMessage(mockEntry);
+      get.getStringifiedEntryMessage(mockEntry);
       expect(mockEntry.toJSON).toHaveBeenCalled();
     });
 
     it('gives back a parseable stringified object', () => {
-      let message = weblog.getStringifiedEntryMessage(mockEntry);
+      let message = get.getStringifiedEntryMessage(mockEntry);
       let parseMessage = function () {
         return JSON.parse(message);
       };
@@ -138,7 +141,7 @@ describe('weblog', () => {
     let mockEntry, entries;
 
     beforeEach( () => {
-      return weblog.getRawEntries({driver : mockDriver})
+      return get.getRawEntries({driver : mockDriver})
       .then( (result) => {
         entries = result;
         mockEntry = entries[0];
@@ -146,7 +149,7 @@ describe('weblog', () => {
     });
 
     it('returns the JSON parsed message property of the toJSON function call', () => {
-      let message = weblog.getEntryMessage(mockEntry);
+      let message = get.getEntryMessage(mockEntry);
       expect(message).toEqual({ message: mockEntry.message});
     });
   });
@@ -155,7 +158,7 @@ describe('weblog', () => {
     let entries;
 
     beforeEach( () => {
-      return weblog.getRawEntries({driver : mockDriver})
+      return get.getRawEntries({driver : mockDriver})
       .then( (result) => {
         entries = result;
       });
@@ -163,7 +166,7 @@ describe('weblog', () => {
 
    it('filters entries by method', () => {
      let method = 'Network.requestWillBeSent';
-     let filteredEntries = weblog.filterEntriesByMethod({ entries, method }).filteredEntries;
+     let filteredEntries = filter.filterEntriesByMethod({ entries, method }).filteredEntries;
      expect(filteredEntries.length).toEqual(1);
    });
   });
