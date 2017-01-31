@@ -10,17 +10,26 @@ const get = {
     }
   },
 
-  getStringifiedEntryMessage (entry) {
+  stringifiedEntryMessage (entry) {
     return entry.toJSON().message;
   },
 
-  getRawEntries ({ driver } = {}) {
+  rawEntries ({ driver } = {}) {
     this.checkDriver({ driver });
     return driver.manage().logs().get('performance');
   },
 
-  getEntryMessage (entry) {
-    return JSON.parse(this.getStringifiedEntryMessage(entry));
+  entryMessage (entry) {
+    return JSON.parse(this.stringifiedEntryMessage(entry));
+  },
+
+  entries ({ driver }) {
+    return this.rawEntries({ driver })
+    .then( (rawEntries) => {
+      return rawEntries.map( (rawEntry) => {
+        return this.entryMessage(rawEntry);
+      });
+    });
   }
 };
 

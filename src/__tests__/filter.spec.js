@@ -5,15 +5,15 @@ import mockDriver from '../mocks/mocks';
 describe('filterByMethod', () => {
   let entries;
 
-  beforeEach( () => {
-    return get.getRawEntries({driver : mockDriver})
+  beforeAll( () => {
+    return get.entries({driver : mockDriver})
     .then( (result) => {
       entries = result;
     });
   });
 
  it('filters entries by method', () => {
-   let method = 'Network.requestWillBeSent';
+   let method = 'fakeMethod';
    let filteredEntries = filter.filterEntriesByMethod({ entries, method }).filteredEntries;
    expect(filteredEntries.length).toEqual(1);
  });

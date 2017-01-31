@@ -15,15 +15,15 @@ describe('checkDriver', () => {
   });
 });
 
-describe('getRawEntries', () => {
+describe('rawEntries', () => {
   it('it is defined', () => {
-    expect(get.getRawEntries).toBeDefined();
+    expect(get.rawEntries).toBeDefined();
   });
 
   it('it needs a driver instance', () => {
-    expect(get.getRawEntries).toThrow();
+    expect(get.rawEntries).toThrow();
     let fakeCall = () => {
-      get.getRawEntries({
+      get.rawEntries({
         driver : mockDriver
       });
     }
@@ -33,39 +33,39 @@ describe('getRawEntries', () => {
   it('calls driver.manage().logs().get() with `performance` type', () => {
     spyOn(mockDriver.manage().logs(), 'get').and.callThrough();
 
-    return get.getRawEntries({driver : mockDriver})
+    return get.rawEntries({driver : mockDriver})
     .then( () => {
       expect(mockDriver.manage().logs().get).toHaveBeenCalledWith('performance');
     });
   });
 
   it('returns the result of driver.manage().logs().get()', () => {
-    return get.getRawEntries({driver : mockDriver})
+    return get.rawEntries({driver : mockDriver})
     .then( () => {
-      expect(get.getRawEntries({driver : mockDriver})).toEqual(mockDriver.manage().logs().get('performance'));
+      expect(get.rawEntries({driver : mockDriver})).toEqual(mockDriver.manage().logs().get('performance'));
     });
   });
 
   it('gives back an array', () => {
-    return get.getRawEntries({driver : mockDriver})
+    return get.rawEntries({driver : mockDriver})
     .then( (entries) => {
       expect({}.toString.call(entries)).toEqual('[object Array]');
     });
   });
 
   it('an entry has a toJSON function', () => {
-    return get.getRawEntries({driver : mockDriver})
+    return get.rawEntries({driver : mockDriver})
     .then( (entries) => {
       expect(typeof entries[0].toJSON).toEqual('function');
     });
   });
 });
 
-describe('getStringifiedEntryMessage', () => {
+describe('stringifiedEntryMessage', () => {
   let mockEntry, entries;
 
   beforeEach( () => {
-    return get.getRawEntries({driver : mockDriver})
+    return get.rawEntries({driver : mockDriver})
     .then( (result) => {
       entries = result;
       mockEntry = entries[0];
@@ -74,12 +74,12 @@ describe('getStringifiedEntryMessage', () => {
 
   it('calls the mockEntry toJSON function', () => {
     spyOn(mockEntry, 'toJSON').and.callThrough();
-    get.getStringifiedEntryMessage(mockEntry);
+    get.stringifiedEntryMessage(mockEntry);
     expect(mockEntry.toJSON).toHaveBeenCalled();
   });
 
   it('gives back a parseable stringified object', () => {
-    let message = get.getStringifiedEntryMessage(mockEntry);
+    let message = get.stringifiedEntryMessage(mockEntry);
     let parseMessage = function () {
       return JSON.parse(message);
     };
@@ -88,11 +88,11 @@ describe('getStringifiedEntryMessage', () => {
 
 });
 
-describe('getEntryMessage', () => {
+describe('entryMessage', () => {
   let mockEntry, entries;
 
-  beforeEach( () => {
-    return get.getRawEntries({driver : mockDriver})
+  beforeAll( () => {
+    return get.rawEntries({driver : mockDriver})
     .then( (result) => {
       entries = result;
       mockEntry = entries[0];
@@ -100,7 +100,28 @@ describe('getEntryMessage', () => {
   });
 
   it('returns the JSON parsed message property of the toJSON function call', () => {
-    let message = get.getEntryMessage(mockEntry);
+    let message = get.entryMessage(mockEntry);
     expect(message).toEqual({ message: mockEntry.message});
+  });
+});
+
+describe('entries', () => {
+  let rawEntries;
+
+  beforeAll( () => {
+    return get.rawEntries({driver : mockDriver})
+    .then( (result) => {
+      rawEntries = result;
+    });
+  });
+
+  it('extracts entry message from rawEntries', () => {
+    return get.entries({ driver: mockDriver })
+    .then( (entries) => {
+      expect(entries.length).toEqual(rawEntries.length);
+      entries.forEach( (entry, index) => {
+        expect(entry).toEqual(get.entryMessage(rawEntries[index]));
+      });
+    });  
   });
 });
