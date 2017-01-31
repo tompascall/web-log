@@ -1,51 +1,9 @@
 import weblog from '../weblog';
 import get from '../get';
 import filter from '../filter.js';
-jest.unmock('../weblog');
-jest.unmock('../get');
-jest.unmock('../filter');
+import mockDriver from '../mocks/mocks';
 
 describe('weblog', () => {
-  const mockEntryGenerator = function ({ message } = {}) {
-    return {
-      message,
-      toJSON () {
-        return {
-          message: JSON.stringify( { message:this.message })
-        }
-      }
-    };
-  };
-
-  const mockEntries = [
-    mockEntryGenerator({ message: {
-      method: "Network.requestWillBeSent",
-      params: {
-        request: {
-          url: "www/testurl1?testparam1=1&testparam2=2"
-        }
-      }
-    }}),
-    mockEntryGenerator({message: {
-      method: "fakeMethod",
-      params: {
-        request: {
-          url: "www/testurl1?testparam1=1&testparam2=2"
-        }
-      }
-    }}),
-  ];
-
-  const mockDriver = {
-    manage () { return this },
-    logs () { return this },
-    get (logType) {
-      if (logType === 'performance') {
-        return Promise.resolve(mockEntries);
-      }
-    }
-  };
-
   it('weblog is an object', () => {
     expect({}.toString.call(weblog)).toBe('[object Object]');
   });
