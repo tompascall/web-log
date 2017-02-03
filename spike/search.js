@@ -1,23 +1,14 @@
+//const weblog = require('../src/weblog');
+import get from '../src/get.js';
 const driver = require('../driver/driver')
 	.createDriver({type: 'chrome'});
 
-function getEntries (driver) {
-	return driver.manage().logs().get('performance')
-}
-
-function getEntryMessage (entry) {
-	return JSON.parse(entry.toJSON().message);
-}
-
 driver.get('http://google.com')
 .then( () => {
-	return getEntries(driver);
-})
-.then( (entries) => {
-	return entries.map(getEntryMessage);
+	return get.entries({driver});
 })
 .then( (entriesMessages) => {
-	console.log(JSON.stringify(entriesMessages));
+	console.log('ENTRIES',JSON.stringify(entriesMessages));
 	driver.quit();
 })
 

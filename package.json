@@ -4,7 +4,8 @@
   "description": "e2e test utility for testing network traffic",
   "scripts": {
     "test": "jest --config jest.config.js",
-    "start": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "spike": "webpack --config webpack.spike.config.js"
   },
   "repository": {
     "type": "git",
