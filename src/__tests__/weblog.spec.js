@@ -5,12 +5,12 @@ describe('weblog', () => {
     expect({}.toString.call(weblog)).toBe('[object Object]');
   });
 
-  it('get is defined on weblog', () => {
-    expect(weblog.get).toBeDefined();
+  it('logEntries is defined on weblog', () => {
+    expect(weblog.logEntries).toBeDefined();
   });
 
 
-  it('filter is defined on weblog', () => {
-    expect(weblog.filter).toBeDefined();
+  it('logEntry is defined on weblog', () => {
+    expect(weblog.logEntry).toBeDefined();
   });
 });

@@ -1,8 +1,8 @@
-import get from './get';
-import filter from './filter';
+import logEntry from './logEntry';
+import logEntries from './logentries';
 
 export default {
-  get,
-  filter
+  logEntry,
+  logEntries
 };
 

@@ -28,5 +28,16 @@ function getDriver (type) {
 module.exports = {
   createDriver ({ type } = {}) {
     return getDriver(type);
-  }
+  },
+
+  checkDriver ({ driver } = {}) {
+    try {
+      if (typeof driver.manage().logs().get !== 'function') {
+        throw Error();
+      }
+    }
+    catch (e) {
+      throw Error('driver has not been set up properly, cannot log network traffic');
+    }
+  },
 };
