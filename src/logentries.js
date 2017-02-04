@@ -25,13 +25,19 @@ const logEntries = {
     });
   },
 
-	filterByMethod ({entries, method} = {}) {
+  filterByMethod ({entries, method} = {}) {
+    // we let flow through data if no method
+    // for chainability
+    if (!method) {
+      return Object.assign({}, this, {
+        filteredEntries: entries
+      });
+    }
     let filteredEntries = (
       entries || this.filteredEntries || []
     ).filter( (entry) => {
       return entry.message.method === method;
     });
-
     return Object.assign({}, this, {
       filteredEntries
     });
@@ -48,6 +54,16 @@ const logEntries = {
     return Object.assign({}, this, {
       filteredEntries
     });
+  },
+
+  matchAction ({entries = [], method, urlPart} = {}) {
+    let matched = this.filterByMethod({ entries, method })
+      .filterByUrlPart({ urlPart })
+      .filteredEntries;
+    if (matched.length) {
+      return matched;
+    }
+    return false;
   }
 };
 

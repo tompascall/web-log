@@ -79,6 +79,12 @@ describe( 'logEntries module', () => {
       ]
     });
 
+    it('gives back entries if no method is given', () => {
+      let filteredEntries = logEntries.filterByMethod({ entries}).filteredEntries;
+      expect(filteredEntries.length).toEqual(2);
+
+    });
+
     it('filters entries by method', () => {
       let method = 'Network.loadingFailed';
       let filteredEntries = logEntries.filterByMethod({ entries, method }).filteredEntries;
@@ -99,8 +105,16 @@ describe( 'logEntries module', () => {
         mockEntryGenerator({
           method: "Network.responseReceived",
           url: "www/testurl1?testparam1=1&testparam2=2"
+        }),
+        mockEntryGenerator({
+          method: "Network.responseReceived",
+          url: "www/testurl2?testparam1=1&testparam2=2"
         })
       ]
+    });
+
+    it('gives back entries if no urlPart is given', () => {
+      expect(logEntries.filterByUrlPart( { entries }).filteredEntries.length).toEqual(3);
     });
 
     it('filters entries by urlPart', () => {
@@ -138,6 +152,55 @@ describe( 'logEntries module', () => {
       expect(filteredEntries[0].message.fakeProperty).toEqual('fakeData');
       expect(typeof filteredChainResult.filterByMethod).toEqual('function');
       expect(typeof filteredChainResult.filterByUrlPart).toEqual('function');
+    });
+  });
+
+  describe('match action', () => {
+    let entries;
+    beforeAll( () => {
+      entries = [
+        mockEntryGenerator({
+          method: "Network.requestWillBeSent",
+          url: "www/testurl1?testparam1=1&testparam2=2",
+        }),
+        mockEntryGenerator({
+          method: "Network.requestWillBeSent",
+          url: "www/testurl3?testparam1=1&testparam2=2",
+        }),
+        mockEntryGenerator({
+          method: "Network.responseReceived",
+          url: "www/testurl1?testparam1=1&testparam2=2"
+        }),
+      ]
+    });
+
+    it('should give back an empty array if no args given', () => {
+      // action means here a log with a given method and url and matched params
+      let matched = logEntries.matchAction();
+      expect(matched).toBeFalsy();
+    });
+
+    it('should give back an empty array if no match in actons of entries', () => {
+      // action means here a log with a given method and url and matched params
+      let matched = logEntries.matchAction({ entries, method: 'fakeMethod', urlPart: 'fakeUrl'});
+      expect(matched).toBeFalsy();
+    });
+
+    it('should give back an array with matched entries with the same method (no urlPart checking)', () => {
+      let matched = logEntries.matchAction({ entries, method: 'Network.requestWillBeSent'});
+      expect(matched).toEqual([ entries[0], entries[1] ]);
+
+    });
+
+    it('should give back an array with matched entries with the same urlPart (no method checking)', () => {
+      let matched = logEntries.matchAction({ entries, urlPart: 'www/testurl1?testparam1='});
+      expect(matched).toEqual([ entries[0], entries[2] ]);
+
+    });
+
+    it('urlPart and method checking can be combined', () => {
+      let matched = logEntries.matchAction({ entries, urlPart: 'www/testurl1?testparam1=', method: 'Network.requestWillBeSent' });
+      expect(matched).toEqual([ entries[0] ]);
     });
   });
 });

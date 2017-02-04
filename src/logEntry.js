@@ -1,4 +1,5 @@
 import mapMethodToAction from './mapMethodToAction';
+import { escapeRegExp } from 'lodash';
 
 const logEntry = {
   getStringifiedEntryMessageFromRawEntry (rawEntry) {
@@ -15,6 +16,10 @@ const logEntry = {
 
   matchUrlPart ({ entry, urlPart = '' } = {}) {
     let method = this.getMethod({ entry });
+
+    if (typeof urlPart === 'string') {
+      urlPart = escapeRegExp(urlPart);
+    }
     return entry.message.params[mapMethodToAction[method]] &&
       entry.message.params[mapMethodToAction[method]].url.search(urlPart) > -1;
   },

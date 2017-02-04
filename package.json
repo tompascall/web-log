@@ -4,6 +4,7 @@
   "description": "e2e test utility for testing network traffic",
   "scripts": {
     "test": "jest --config jest.config.js",
+    "test:watch": "jest --watch --config jest.config.js",
     "build": "webpack --config webpack.config.js",
     "spike": "webpack --config webpack.spike.config.js"
   },
@@ -31,5 +32,8 @@
     "jest": "^18.1.0",
     "selenium-webdriver": "^3.0.1",
     "webpack": "^1.14.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
   }
 }
