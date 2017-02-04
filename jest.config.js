@@ -1,4 +1,3 @@
 {
-  "bail": true,
   "verbose": true
 }
