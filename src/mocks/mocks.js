@@ -1,7 +1,4 @@
-const mapMethodToAction = {
-  "Network.requestWillBeSent": "request",
-  "Network.responseReceived": "response"
-};
+import mapMethodToAction from '../mapMethodToAction';
 
 const mockRawEntryGenerator = function ({ message } = {}) {
   return {

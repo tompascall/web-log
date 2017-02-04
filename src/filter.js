@@ -1,7 +1,4 @@
-const methodMap = {
-  "Network.requestWillBeSent": "request",
-  "Network.responseReceived": "response"
-};
+import mapMethodToAction from './mapMethodToAction';
 
 const filter = {
 	entriesByMethod ({entries, method} = {}) {
@@ -10,7 +7,7 @@ const filter = {
     ).filter( (entry) => {
       return entry.message.method === method;
     });
-    
+
     return Object.assign({}, this, {
       filteredEntries
     });
@@ -22,8 +19,8 @@ const filter = {
 
   matchUrlPart ({ entry, urlPart = '' } = {}) {
     let method = this.getMethod({ entry });
-    return entry.message.params[methodMap[method]] &&
-      entry.message.params[methodMap[method]].url.search(urlPart) > -1;
+    return entry.message.params[mapMethodToAction[method]] &&
+      entry.message.params[mapMethodToAction[method]].url.search(urlPart) > -1;
   },
 
   entriesByUrlPart ({ entries, urlPart = '' } = {}) {
@@ -31,13 +28,13 @@ const filter = {
       entries || this.filteredEntries || []
     )
     .filter( (entry) => {
-      return this.matchUrlPart({ entry, urlPart }); 
+      return this.matchUrlPart({ entry, urlPart });
     });
 
     let result = Object.assign({}, this, {
       filteredEntries
     });
-    return result; 
+    return result;
   }
 };
 
