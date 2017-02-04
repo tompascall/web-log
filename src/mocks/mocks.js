@@ -18,12 +18,23 @@ const mockEntries = [
       }
     }
   }}),
-  mockEntryGenerator({message: {
-    method: "fakeMethod",
+  mockEntryGenerator({ message: {
+    method: "Network.responseReceived",
     params: {
-      request: {
+      response: {
         url: "www/testurl1?testparam1=1&testparam2=2"
       }
+    }
+  }}),
+  mockEntryGenerator({message: {
+    method: "Network.loadingFailed",
+    params: {
+    }
+  }}),
+
+  mockEntryGenerator({message: {
+    method: "Network.loadingFinished",
+    params: {
     }
   }}),
 ];

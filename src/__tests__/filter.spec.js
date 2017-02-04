@@ -13,8 +13,12 @@ describe('filterByMethod', () => {
   });
 
  it('filters entries by method', () => {
-   let method = 'fakeMethod';
+   let method = 'Network.loadingFailed';
    let filteredEntries = filter.filterEntriesByMethod({ entries, method }).filteredEntries;
    expect(filteredEntries.length).toEqual(1);
  });
+
+  it('filters entries by urlPart', () => {
+    expect(filter.entriesByUrlPart( { entries, urlPart: 'testurl1'}).length).toEqual(2);  
+  });
 });
