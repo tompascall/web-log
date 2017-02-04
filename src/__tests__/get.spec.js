@@ -1,10 +1,10 @@
 import get from '../get';
-import { mockDriver, mockEntryGenerator } from '../mocks/mocks';
+import { mockDriver, mockRawEntryGenerator } from '../mocks/mocks';
 
 describe.only( 'get module', () => {
   beforeAll( () => {
     mockDriver.setEntries({ entries: [
-      mockEntryGenerator({ message: {
+      mockRawEntryGenerator({ message: {
         method: "Network.requestWillBeSent",
         params: {
           request: {

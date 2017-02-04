@@ -1,4 +1,9 @@
-const mockEntryGenerator = function ({ message } = {}) {
+const mapMethodToAction = {
+  "Network.requestWillBeSent": "request",
+  "Network.responseReceived": "response"
+};
+
+const mockRawEntryGenerator = function ({ message } = {}) {
   return {
     message,
     toJSON () {
@@ -9,8 +14,31 @@ const mockEntryGenerator = function ({ message } = {}) {
   };
 };
 
+const mockEntryGenerator = function ({
+    method = 'Network.requestWillBeSent',
+    url = '',
+    fakeProperty
+  }) {
+
+  let mockEntry = {
+    message: {
+      method,
+      params: {
+        [ mapMethodToAction[method] ]: {
+          url
+        }
+      }
+    }
+  };
+
+  if (fakeProperty) {
+    mockEntry.message.fakeProperty = fakeProperty;
+  }
+  return mockEntry;
+}
+
 let mockEntries = [
-  mockEntryGenerator({ message: {
+  mockRawEntryGenerator({ message: {
     method: "Network.requestWillBeSent",
     params: {
       request: {
@@ -35,5 +63,6 @@ const mockDriver = {
 
 export {
   mockDriver,
+  mockRawEntryGenerator,
   mockEntryGenerator
 }

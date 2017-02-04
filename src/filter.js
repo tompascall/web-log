@@ -4,13 +4,16 @@ const methodMap = {
 };
 
 const filter = {
-	filterEntriesByMethod ({entries = [], method} = {}) {
-    let filteredEntries = entries.filter( (entry) => {
+	entriesByMethod ({entries, method} = {}) {
+    let filteredEntries = (
+      entries || this.filteredEntries || []
+    ).filter( (entry) => {
       return entry.message.method === method;
     });
-    return {
+    
+    return Object.assign({}, this, {
       filteredEntries
-    };
+    });
 	},
 
   getMethod ({ entry } = {}) {
@@ -23,10 +26,18 @@ const filter = {
       entry.message.params[methodMap[method]].url.search(urlPart) > -1;
   },
 
-  entriesByUrlPart ({ entries, urlPart } = {}) {
-    return entries.filter( (entry) => {
+  entriesByUrlPart ({ entries, urlPart = '' } = {}) {
+    let filteredEntries = (
+      entries || this.filteredEntries || []
+    )
+    .filter( (entry) => {
       return this.matchUrlPart({ entry, urlPart }); 
     });
+
+    let result = Object.assign({}, this, {
+      filteredEntries
+    });
+    return result; 
   }
 };
 
