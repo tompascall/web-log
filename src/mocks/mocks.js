@@ -9,7 +9,7 @@ const mockEntryGenerator = function ({ message } = {}) {
   };
 };
 
-const mockEntries = [
+let mockEntries = [
   mockEntryGenerator({ message: {
     method: "Network.requestWillBeSent",
     params: {
@@ -17,26 +17,7 @@ const mockEntries = [
         url: "www/testurl1?testparam1=1&testparam2=2"
       }
     }
-  }}),
-  mockEntryGenerator({ message: {
-    method: "Network.responseReceived",
-    params: {
-      response: {
-        url: "www/testurl1?testparam1=1&testparam2=2"
-      }
-    }
-  }}),
-  mockEntryGenerator({message: {
-    method: "Network.loadingFailed",
-    params: {
-    }
-  }}),
-
-  mockEntryGenerator({message: {
-    method: "Network.loadingFinished",
-    params: {
-    }
-  }}),
+  }})
 ];
 
 const mockDriver = {
@@ -46,7 +27,13 @@ const mockDriver = {
     if (logType === 'performance') {
       return Promise.resolve(mockEntries);
     }
+  },
+  setEntries ({ entries } = {}) {
+    mockEntries = entries.slice();
   }
 };
 
-export default mockDriver;
+export {
+  mockDriver,
+  mockEntryGenerator
+}
