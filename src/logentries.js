@@ -3,10 +3,18 @@ import { checkDriver } from '../driver/driver';
 import logEntry from './logEntry';
 const logEntries = {
 
+  /* ********************
+   * raw log data
+   * ********************/
+
   getRawEntries ({ driver } = {}) {
     checkDriver({ driver });
     return driver.manage().logs().get('performance');
   },
+
+  /* ********************
+   * transformed log data
+   * ********************/
 
   getLogEntries ({ driver }) {
     return this.getRawEntries({ driver })
