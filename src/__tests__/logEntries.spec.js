@@ -1,5 +1,5 @@
-import logEntries from '../logEntries.js';
-import logEntry from '../logEntry.js';
+import logEntries from '../logEntries';
+import logEntry from '../logEntry';
 import { mockDriver, mockRawEntryGenerator, mockEntryGenerator } from '../mocks/mocks';
 
 describe( 'logEntries module', () => {

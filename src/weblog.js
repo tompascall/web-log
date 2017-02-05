@@ -1,5 +1,5 @@
 import logEntry from './logEntry';
-import logEntries from './logentries';
+import logEntries from './logEntries';
 import driver from '../driver/driver';
 
 const weblog = {
