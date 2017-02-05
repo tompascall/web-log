@@ -1,7 +1,11 @@
 # weblog
 ## e2e test utility for testing network traffic
 
-This utility helps you testing network traffic in your selenium e2e tests. You can check for example if an ajax request is sent (say with the correct query params) or got the correct response during a user journay. You can get and filter the log extracted from selenium webdriver network log:
+This utility helps you testing network traffic in your selenium e2e tests. 
+
+When you write e2e tests, sometimes you would like to check the network traffic during between changes of the state of your application. You may want to know for example if an ajax request has really been sent (say with the correct query params) or check the correct response of a request. 
+
+A solution for this problem can be getting and filtering the log entries extracted from selenium webdriver network log:
 
 ```js
 import { logEntry, logEntries, driver as driverUtil } from '../{path of weblog project}/weblog';
@@ -78,11 +82,11 @@ logEntries module gets the raw entry data, transforms it to a JSON object, and h
 
 #### getRawEntries ({ driver }): promise (the result is an array)
 
-Gets the raw performance log data. It is an array which contains raw entry objects.
+Gets the raw performance log data. It is an array which contains **raw** entry objects.
 
 #### getLogEntries ({ driver }) : promise (result is an array)
 
-It gets raw entries and transforms the message part of the entry to a JSON format object. This method is ideal for getting all the log data, and after that you may want to filter entries with the filter utilities. **Getting entries results clearing the log content of the driver**, so you have to make all operation on entries data before getting log entries again. All the filters and matchers work on entries got by this method, but not on the raw entry data.
+It gets raw entries and transforms the message part of the entry to a JSON format object. This method is ideal for getting all the log data, and after that you may want to filter entries with the filter utilities. **Getting entries clears the log content of the driver**, so you have to make all operation on entries data before getting log entries again. All the filters and matchers work on entries got by this method, but not on the raw entry data.
 
 #### matchAction ({entries, method?, urlPart?, refParams?}) : array of matched entries or false if no match
 
@@ -96,7 +100,7 @@ Yo can filter the entries quite comfortably with this method. If method, urlPart
   - 'Network.loadingFinished'
   - 'Network.loadingFailed'
 - urlPart can be a string or a regex
-- refParams is an object with params { param1: 'value1', param2: 'value2' }
+- refParams is an object with params { param1: 'value1', param2: 'value2' }. These are params you want to check if a url query part contains. You do not have to give all the params of url, just the ones you want to check.
 
 ### logEntry
 
@@ -118,5 +122,6 @@ To run demo: `node demo/bin/demo.js`
 ## Development
 
 We use [Jest](https://facebook.github.io/jest/) for unit testing. You can run tests with `npm run test` or `npm run test:watch` for only watching changed file.
-`npm run test`
+
+To create a webpack package from the project run `npm build`.
 
