@@ -2,4 +2,6 @@ bin
 node_modules
 *.swp
 *.swo
-
+.coveralls.yml
+coverage.data
+coverage
