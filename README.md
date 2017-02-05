@@ -82,7 +82,7 @@ Gets the raw performance log data. It is an array which contains raw entry objec
 
 #### getLogEntries ({ driver }) : promise (result is an array)
 
-It gets raw entries and transforms the message part of the entry to a JSON format object. This method is ideal for getting all the log data, and after that you may want to filter entries with the filter utilities. Getting entries results clearing the log content of the driver, so you have to make all operation on entries data, do some other user journeys before getting again entries. All the filters and matchers work on entries got by this method, but not on the raw entry data.
+It gets raw entries and transforms the message part of the entry to a JSON format object. This method is ideal for getting all the log data, and after that you may want to filter entries with the filter utilities. **Getting entries results clearing the log content of the driver**, so you have to make all operation on entries data before getting log entries again. All the filters and matchers work on entries got by this method, but not on the raw entry data.
 
 #### matchAction ({entries, method?, urlPart?, refParams?}) : array of matched entries or false if no match
 
@@ -104,9 +104,11 @@ logEntry module operates on single entry object.
 
 #### getMethod ({ entry })
 
-Getting method of entry
+Get method of entry.
 
 #### getUrl ({ entry })
+
+Get url of entry.
 
 ## Demo
 
