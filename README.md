@@ -100,7 +100,7 @@ Yo can filter the entries quite comfortably with this method. If method, urlPart
   - 'Network.loadingFinished'
   - 'Network.loadingFailed'
 - urlPart can be a string or a regex
-- refParams is an object with params { param1: 'value1', param2: 'value2' }. These are params you want to check if a url query part contains. You do not have to give all the params of url, just the ones you want to check.
+- refParams is an object with params `{ param1: 'value1', param2: 'value2' }`. These are params you want to check if a given url query contains. You do not have to give all the params of url, just the ones you want to check.
 
 ### logEntry
 
