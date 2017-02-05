@@ -14,6 +14,11 @@ const logEntry = {
     return entry.message.method;
   },
 
+  getUrl ({ entry }) {
+    let method = this.getMethod({ entry });
+    return entry.message.params[mapMethodToAction[method]].url;
+  },
+
   matchUrlPart ({ entry, urlPart = '' } = {}) {
     let method = this.getMethod({ entry });
 

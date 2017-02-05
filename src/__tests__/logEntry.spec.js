@@ -1,6 +1,6 @@
 import logEntries from '../logEntries';
 import logEntry from '../logEntry';
-import { mockDriver } from '../mocks/mocks';
+import { mockDriver, mockEntryGenerator } from '../mocks/mocks';
 
 describe('logEntry', () => {
 
@@ -44,6 +44,23 @@ describe('logEntry', () => {
     it('returns the JSON parsed message property of the toJSON function call', () => {
       let message = logEntry.entryMessageFromRawEntry(mockEntry);
       expect(message).toEqual({ message: mockEntry.message});
+    });
+  });
+
+  describe('getUrl', () => {
+    let entry;
+
+    beforeAll( () => {
+      entry = mockEntryGenerator({
+        method: "Network.requestWillBeSent",
+        url: "www/testurl1?testparam1=1&testparam2=2",
+        fakeProperty: 'fakeData'
+      });
+    });
+    
+    it('should get url', () => {
+      let url = logEntry.getUrl({ entry });
+      expect(url).toEqual("www/testurl1?testparam1=1&testparam2=2");
     });
   });
 
