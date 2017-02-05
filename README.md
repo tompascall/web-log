@@ -1,2 +1,120 @@
 # weblog
 ## e2e test utility for testing network traffic
+
+This utility helps you testing network traffic in your selenium e2e tests. You can check for example if an ajax request is sent (say with the correct query params) or got the correct response during a user journay. You can get and filter the log extracted from selenium webdriver network log:
+
+```js
+import { logEntry, logEntries, driver as driverUtil } from '../{path of weblog project}/weblog';
+
+//  use your previously configured web driver instance, 
+//  or you can use the built-in driver config as below
+
+const driver = driverUtil.createDriver({type: 'chrome'});
+
+driver.get('https://search.yahoo.com/')
+.then( () => {
+  return logEntries.getLogEntries({ driver });
+})
+.then( (entries) => {
+  let matchedEntries = logEntries.matchAction({
+    entries,
+    urlPart: 'images/ff_icon-compressed.png',
+    method: 'Network.requestWillBeSent'
+  });
+  console.log(JSON.stringify(matchedEntries));
+});
+```
+
+You'll get something like this:
+
+```js
+[
+  {
+    "message": {
+      "method": "Network.requestWillBeSent",
+      "params": {
+        "documentURL": "https://search.yahoo.com/",
+        "frameId": "34828.1",
+        "initiator": {
+          "lineNumber": 2,
+          "type": "parser",
+          "url": "https://search.yahoo.com/"
+        },
+        "loaderId": "34828.1",
+        "request": {
+          "headers": {
+            "Referer": "https://search.yahoo.com/",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36"
+          },
+          "initialPriority": "Low",
+          "method": "GET",
+          "mixedContentType": "none",
+          "url": "https://s.yimg.com/kx/yucs/uh3s/promo-ff/1/images/ff_icon-compressed.png"
+        },
+        "requestId": "34828.3",
+        "timestamp": 162088.788968,
+        "type": "Other",
+        "wallTime": 1486295567.13642
+      }
+    },
+    "webview": "92d5054b-9d84-4399-8d74-9c0c9d0393d4"
+  }
+]
+```
+
+## Prerequisites
+
+- Nodejs (at least v6.9)
+
+- For the moment the tool only works with [chromedriver](https://sites.google.com/a/chromium.org/chromedriver/getting-started). You have to install it if you haven't done yet.
+
+- Clone the project and install npm packages.
+
+## Usage
+
+### logEntries
+
+logEntries module gets the raw entry data, transforms it to a JSON object, and has filter utilities to filter entries by method, urlPart or query params.
+
+#### getRawEntries ({ driver }): promise (the result is an array)
+
+Gets the raw performance log data. It is an array which contains raw entry objects.
+
+#### getLogEntries ({ driver }) : promise (result is an array)
+
+It gets raw entries and transforms the message part of the entry to a JSON format object. This method is ideal for getting all the log data, and after that you may want to filter entries with the filter utilities. Getting entries results clearing the log content of the driver, so you have to make all operation on entries data, do some other user journeys before getting again entries. All the filters and matchers work on entries got by this method, but not on the raw entry data.
+
+#### matchAction ({entries, method?, urlPart?, refParams?}) : array of matched entries or false if no match
+
+Yo can filter the entries quite comfortably with this method. If method, urlPart or refParam omitted, it gives back all entries with all methods etc.
+
+- method can be
+  - 'Network.requestWillBeSent'
+  - 'Network.requestServedFromCache'
+  - 'Network.responseReceived'
+  - 'Network.dataReceived'
+  - 'Network.loadingFinished'
+  - 'Network.loadingFailed'
+- urlPart can be a string or a regex
+- refParams is an object with params { param1: 'value1', param2: 'value2' }
+
+### logEntry
+
+logEntry module operates on single entry object.
+
+#### getMethod ({ entry })
+
+Getting method of entry
+
+#### getUrl ({ entry })
+
+## Demo
+
+To build the demo: `npm run demo`  
+To run demo: `node demo/bin/demo.js`  
+
+## Development
+
+We use [Jest](https://facebook.github.io/jest/) for unit testing. You can run tests with `npm run test` or `npm run test:watch` for only watching changed file.
+`npm run test`
+
