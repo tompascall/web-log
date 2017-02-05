@@ -1,14 +1,14 @@
 var path = require('path');
 
 module.exports = {
-  entry: "./spike/search",
+  entry: "./demo/demo",
 
   output: {
     // options related to how webpack emits results
 
-    path: path.resolve(__dirname, "spike", "bin"), // string
+    path: path.resolve(__dirname, "demo", "bin"), // string
 
-    filename: "spike.js", // string
+    filename: "demo.js", // string
     // the filename template for entry chunks
   },
 

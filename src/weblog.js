@@ -1,8 +1,10 @@
 import logEntry from './logEntry';
 import logEntries from './logentries';
+import driver from '../driver/driver';
 
-export default {
+export {
   logEntry,
-  logEntries
+  logEntries,
+  driver
 };
 
