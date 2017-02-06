@@ -1,4 +1,5 @@
-[![Coverage Status](https://coveralls.io/repos/tompascall/weblog/badge.svg?branch=master)](https://coveralls.io/r/<account>/<repository>?branch=master)
+![Build Status](https://travis-ci.org/tompascall/weblog.svg?branch=master)
+
 
 # weblog
 ## e2e test utility for testing network traffic
