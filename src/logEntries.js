@@ -88,7 +88,7 @@ const logEntries = {
 
   },
 
-  matchAction ({entries = [], method, urlPart, refParams} = {}) {
+  filterEntries ({entries = [], method, urlPart, refParams} = {}) {
     let matched = this.filterByMethod({ entries, method })
       .filterByUrlPart({ urlPart })
       .filterByRefParams({ refParams })

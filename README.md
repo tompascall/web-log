@@ -23,7 +23,7 @@ driver.get('https://search.yahoo.com/')
   return logEntries.getLogEntries({ driver });
 })
 .then( (entries) => {
-  let matchedEntries = logEntries.matchAction({
+  let matchedEntries = logEntries.filterEntries({
     entries,
     urlPart: 'images/ff_icon-compressed.png',
     method: 'Network.requestWillBeSent'
@@ -91,7 +91,7 @@ Gets the raw performance log data. It is an array which contains **raw** entry o
 
 It gets raw entries and transforms the message part of the entry to a JSON format object. This method is ideal for getting all the log data, and after that you may want to filter entries with the filter utilities. **Getting entries clears the log content of the driver**, so you have to make all operation on entries data before getting log entries again. All the filters and matchers work on entries got by this method, but not on the raw entry data.
 
-#### matchAction ({entries, method?, urlPart?, refParams?}) : array of matched entries or false if no match
+#### filterEntries ({entries, method?, urlPart?, refParams?}) : array of matched entries or false if no match
 
 Yo can filter the entries quite comfortably with this method. If method, urlPart or refParam omitted, it gives back all entries with all methods etc.
 

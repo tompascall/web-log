@@ -7,7 +7,7 @@ driver.get('https://search.yahoo.com/')
 	return logEntries.getLogEntries({driver});
 })
 .then( (entriesMessages) => {
-  let matchedEntries = logEntries.matchAction({entries: entriesMessages, urlPart: 'images/ff_icon-compressed.png', method: 'Network.requestWillBeSent'});
+  let matchedEntries = logEntries.filterEntries({entries: entriesMessages, urlPart: 'images/ff_icon-compressed.png', method: 'Network.requestWillBeSent'});
 	console.log('ENTRIES',JSON.stringify(matchedEntries));
 	driver.quit();
 })

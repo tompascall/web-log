@@ -240,35 +240,35 @@ describe( 'logEntries module', () => {
 
     it('should give back an empty array if no args given', () => {
       // action means here a log with a given method and url and matched params
-      let matched = logEntries.matchAction();
+      let matched = logEntries.filterEntries();
       expect(matched).toBeFalsy();
     });
 
     it('should give back an empty array if no match in actons of entries', () => {
       // action means here a log with a given method and url and matched params
-      let matched = logEntries.matchAction({ entries, method: 'fakeMethod', urlPart: 'fakeUrl'});
+      let matched = logEntries.filterEntries({ entries, method: 'fakeMethod', urlPart: 'fakeUrl'});
       expect(matched).toBeFalsy();
     });
 
     it('should give back an array with matched entries with the same method', () => {
-      let matched = logEntries.matchAction({ entries, method: 'Network.requestWillBeSent'});
+      let matched = logEntries.filterEntries({ entries, method: 'Network.requestWillBeSent'});
       expect(matched).toEqual([ entries[0], entries[1] ]);
 
     });
 
     it('should give back an array with matched entries with the same urlPart (no method checking)', () => {
-      let matched = logEntries.matchAction({ entries, urlPart: 'www/testurl1?testparam1='});
+      let matched = logEntries.filterEntries({ entries, urlPart: 'www/testurl1?testparam1='});
       expect(matched).toEqual([ entries[0], entries[2] ]);
 
     });
 
     it('urlPart and method checking can be combined', () => {
-      let matched = logEntries.matchAction({ entries, urlPart: 'www/testurl1?testparam1=', method: 'Network.requestWillBeSent' });
+      let matched = logEntries.filterEntries({ entries, urlPart: 'www/testurl1?testparam1=', method: 'Network.requestWillBeSent' });
       expect(matched).toEqual([ entries[0] ]);
     });
 
     it('should be check query params as well', () => {
-      let matched = logEntries.matchAction({ entries, refParams: {testparam3: '3', testparam4: '4'} });
+      let matched = logEntries.filterEntries({ entries, refParams: {testparam3: '3', testparam4: '4'} });
       expect(matched).toEqual([ entries[1] ]);
 
     });
