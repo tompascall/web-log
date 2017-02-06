@@ -9,28 +9,31 @@ function getChromeDriverOptions () {
   return options;
 }
 
-function getDriver (type) {
-  let options;
-  switch (type) {
-    case 'chrome':
-      options = getChromeDriverOptions();
-    break;
-    default:
-      throw Error('unknown type of webdriver');
-  }
-
-  return new webdriver.Builder()
-    .forBrowser(type)
-    .withCapabilities(options.toCapabilities())
-    .build();
-}
 
 module.exports = {
+  getDriver ({ type, options } = {}) {
+    return new webdriver.Builder()
+      .forBrowser(type)
+      .withCapabilities(options.toCapabilities())
+      .build();
+  },
+
   createDriver ({ type } = {}) {
-    return getDriver(type);
+    let options;
+    switch (type) {
+      case 'chrome':
+        options = getChromeDriverOptions();
+      break;
+      default:
+        throw Error('unknown type of webdriver');
+    }
+    return this.getDriver({ type, options });
   },
 
   checkDriver ({ driver } = {}) {
+    if (!driver) {
+      throw Error('You have to give a driver instance as named param');
+    }
     try {
       if (typeof driver.manage().logs().get !== 'function') {
         throw Error();
