@@ -19,7 +19,7 @@ const logEntries = {
    * transformed log data
    * ********************/
 
-  getLogEntries ({ driver }) {
+  getLogEntries ({ driver } = {}) {
     return this.getRawEntries({ driver })
     .then( (rawEntries) => {
       return rawEntries.map( (rawEntry) => {

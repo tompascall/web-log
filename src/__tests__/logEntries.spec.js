@@ -66,6 +66,30 @@ describe( 'logEntries module', () => {
     });
   });
 
+  describe('getLogEntries', () => {
+    it('should call getRawEntries', () => {
+      spyOn(logEntries, 'getRawEntries').and.callFake( () => {
+        return Promise.resolve([]);
+      });
+      return logEntries.getLogEntries()
+        .then( () => {
+          expect(logEntries.getRawEntries).toHaveBeenCalled();
+        });
+    });
+
+    it('should map rawEntries by logEntry.entryMessageFromRawEntry()', () => {
+      spyOn(logEntries, 'getRawEntries')
+        .and.callFake( () => {
+          return Promise.resolve([{}, {}]);
+        });
+      spyOn(logEntry, 'entryMessageFromRawEntry');
+      return logEntries.getLogEntries()
+        .then( () => {
+          expect(logEntry.entryMessageFromRawEntry).toHaveBeenCalledTimes(2);
+        });
+    });
+  });
+  
   describe('filterByMethod', () => {
   let entries;
 
