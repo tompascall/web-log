@@ -1,4 +1,4 @@
-![Build Status](https://travis-ci.org/tompascall/weblog.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/tompascall/weblog/badge.svg?branch=master)](https://coveralls.io/r/tompascall/weblog>?branch=master)
+![Build Status](https://travis-ci.org/tompascall/weblog.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/tompascall/weblog/badge.svg?branch=master)](https://coveralls.io/r/tompascall/weblog?branch=master)
 
 
 # weblog
