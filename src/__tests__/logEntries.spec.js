@@ -20,11 +20,11 @@ describe( 'logEntries module', () => {
     });
 
     describe('getRawEntries', () => {
-      it('it is defined', () => {
+      it('is defined', () => {
         expect(logEntries.getRawEntries).toBeDefined();
       });
 
-      it('it needs a driver instance', () => {
+      it('needs a driver instance', () => {
         expect(logEntries.getRawEntries).toThrow();
         let fakeCall = () => {
           logEntries.getRawEntries({
@@ -57,7 +57,7 @@ describe( 'logEntries module', () => {
         });
       });
 
-      it('an entry has a toJSON function', () => {
+      it('has a toJSON function', () => {
         return logEntries.getRawEntries({driver : mockDriver})
         .then( (entries) => {
           expect(typeof entries[0].toJSON).toEqual('function');
@@ -89,7 +89,7 @@ describe( 'logEntries module', () => {
         });
     });
   });
-  
+
   describe('filterByMethod', () => {
   let entries;
 
@@ -207,7 +207,7 @@ describe( 'logEntries module', () => {
       ]
     });
 
-    it('filters can be chained', () => {
+    it('can be chained', () => {
       let filteredChainResult = logEntries
         .filterByMethod( { entries, method: 'Network.requestWillBeSent'})
         .filterByUrlPart( { urlPart: 'testurl1'});
@@ -219,7 +219,7 @@ describe( 'logEntries module', () => {
     });
   });
 
-  describe('match action', () => {
+  describe('filterEntries', () => {
     let entries;
     beforeAll( () => {
       entries = [
@@ -267,7 +267,7 @@ describe( 'logEntries module', () => {
       expect(matched).toEqual([ entries[0] ]);
     });
 
-    it('should be check query params as well', () => {
+    it('should filter query params as well', () => {
       let matched = logEntries.filterEntries({ entries, refParams: {testparam3: '3', testparam4: '4'} });
       expect(matched).toEqual([ entries[1] ]);
 
