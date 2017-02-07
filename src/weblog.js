@@ -1,11 +1,11 @@
 import logEntry from './logEntry';
 import logEntries from './logEntries';
-import driver from '../driver/driver';
+import driverUtil from '../driver/driver';
 
 const weblog = {
   logEntry,
   logEntries,
-  driver
+  driverUtil
 };
 
 export default weblog;

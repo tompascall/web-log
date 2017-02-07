@@ -11,7 +11,8 @@ When you write e2e tests, sometimes you would like to check the network traffic 
 A solution for this problem can be getting and filtering the log entries extracted from selenium webdriver network log:
 
 ```js
-import { logEntry, logEntries, driver as driverUtil } from '../{path of weblog project}/weblog';
+import weblog from '../{path of weblog project}/weblog';
+const { driverUtil, logEntries } = weblog;
 
 //  use your previously configured web driver instance, 
 //  or you can use the built-in driver config as below
@@ -23,12 +24,12 @@ driver.get('https://search.yahoo.com/')
   return logEntries.getLogEntries({ driver });
 })
 .then( (entries) => {
-  let matchedEntries = logEntries.filterEntries({
+  let filteredEntries = logEntries.filterEntries({
     entries,
     urlPart: 'images/ff_icon-compressed.png',
     method: 'Network.requestWillBeSent'
   });
-  console.log(JSON.stringify(matchedEntries));
+  console.log(JSON.stringify(filteredEntries));
 });
 ```
 

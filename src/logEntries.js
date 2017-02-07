@@ -1,5 +1,5 @@
 import mapMethodToAction from './mapMethodToAction';
-import { checkDriver } from '../driver/driver';
+import driverUtil from '../driver/driver';
 import logEntry from './logEntry';
 import utils from './utils';
 import { matches } from 'lodash';
@@ -11,7 +11,7 @@ const logEntries = {
    * ********************/
 
   getRawEntries ({ driver } = {}) {
-    checkDriver({ driver });
+    driverUtil.checkDriver({ driver });
     return driver.manage().logs().get('performance');
   },
 

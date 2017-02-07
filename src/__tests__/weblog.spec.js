@@ -15,6 +15,6 @@ describe('weblog', () => {
   });
 
   it('exposes driver', () => {
-    expect(weblog.driver).toBeDefined();
+    expect(weblog.driverUtil).toBeDefined();
   });
 });

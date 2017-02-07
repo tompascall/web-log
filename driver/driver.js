@@ -10,7 +10,7 @@ function getChromeDriverOptions () {
 }
 
 
-module.exports = {
+const driverUtil = {
   getDriver ({ type, options } = {}) {
     return new webdriver.Builder()
       .forBrowser(type)
@@ -44,3 +44,6 @@ module.exports = {
     }
   },
 };
+
+export default driverUtil;
+

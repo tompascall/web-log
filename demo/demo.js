@@ -1,4 +1,5 @@
-import { logEntries, driver as driverUtil } from '../src/weblog';
+import weblog from '../src/weblog';
+const { driverUtil, logEntries } = weblog;
 
 const driver = driverUtil.createDriver({type: 'chrome'});
 
@@ -7,8 +8,8 @@ driver.get('https://search.yahoo.com/')
 	return logEntries.getLogEntries({driver});
 })
 .then( (entriesMessages) => {
-  let matchedEntries = logEntries.filterEntries({entries: entriesMessages, urlPart: 'images/ff_icon-compressed.png', method: 'Network.requestWillBeSent'});
-	console.log('ENTRIES',JSON.stringify(matchedEntries));
+  let filteredEntries = logEntries.filterEntries({entries: entriesMessages, urlPart: 'images/ff_icon-compressed.png', method: 'Network.requestWillBeSent'});
+	console.log('ENTRIES',JSON.stringify(filteredEntries));
 	driver.quit();
 })
 
