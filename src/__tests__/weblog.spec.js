@@ -1,16 +1,20 @@
 import weblog from '../weblog';
 
 describe('weblog', () => {
-  it('weblog is an object', () => {
+  it('should be an object', () => {
     expect({}.toString.call(weblog)).toBe('[object Object]');
   });
 
-  it('logEntries is defined on weblog', () => {
+  it('exposes logEntries', () => {
     expect(weblog.logEntries).toBeDefined();
   });
 
 
-  it('logEntry is defined on weblog', () => {
+  it('exposes logEntry', () => {
     expect(weblog.logEntry).toBeDefined();
+  });
+
+  it('exposes driver', () => {
+    expect(weblog.driver).toBeDefined();
   });
 });
