@@ -14,7 +14,8 @@ const mockRawEntryGenerator = function ({ message } = {}) {
 const mockEntryGenerator = function ({
     method = 'Network.requestWillBeSent',
     url = '',
-    fakeProperty
+    fakeProperty,
+    status
   }) {
 
   let mockEntry = {
@@ -27,6 +28,10 @@ const mockEntryGenerator = function ({
       }
     }
   };
+
+  if (status && mapMethodToAction[method] === 'response') {
+    mockEntry.message.params[ mapMethodToAction[method] ].status = status;
+  }
 
   if (fakeProperty) {
     mockEntry.message.fakeProperty = fakeProperty;

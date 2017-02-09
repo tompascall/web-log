@@ -28,6 +28,18 @@ const logEntry = {
     return entry.message.params[mapMethodToAction[method]] &&
       entry.message.params[mapMethodToAction[method]].url.search(urlPart) > -1;
   },
+
+  matchStatus ({ entry, status = '' } = {}) {
+
+    if (typeof status === 'string') {
+      status = escapeRegExp(status);
+    }
+    // status is only reasonable if it is a response
+    return entry.message.params.response &&
+      entry.message.params.response.status &&
+
+      entry.message.params.response.status.search(status) > -1;
+  },
 };
 
 export default logEntry;

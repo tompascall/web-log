@@ -186,6 +186,59 @@ describe( 'logEntries module', () => {
     });
   });
 
+  describe('filterByStatus', () => {
+    let entries;
+
+    beforeAll( () => {
+      entries = [
+        mockEntryGenerator({
+          method: "Network.requestWillBeSent",
+          url: "www/testurl1?testparam1=1&testparam2=2",
+        }),
+        mockEntryGenerator({
+          method: "Network.requestWillBeSent",
+          url: "www/testurl3?testparam1=1&testparam2=2",
+        }),
+        mockEntryGenerator({
+          method: "Network.responseReceived",
+          url: "www/testurl1?testparam1=1&testparam2=2",
+          status: '200'
+        }),
+        mockEntryGenerator({
+          method: "Network.responseReceived",
+          url: "www/testurl3?testparam1=1&testparam2=2",
+          status: '404'
+        }),
+        mockEntryGenerator({
+          method: "Network.responseReceived",
+          url: "www/testurl2?testparam1=1&testparam2=2",
+          status: '403'
+        }),
+      ]
+    });
+
+    it('should give back entries as are if status is not given', () => {
+      const filteredEntries = logEntries.filterByStatus({entries}).filteredEntries;
+      expect(filteredEntries).toEqual(entries);
+    });
+
+    it('should filter by status as regex', () => {
+      let filteredEntries = logEntries.filterByStatus({entries, status: /2\d\d/}).filteredEntries;
+      expect(filteredEntries).toEqual([ entries[2] ]);
+
+      filteredEntries = logEntries.filterByStatus({entries, status: /40[34]/}).filteredEntries;
+      expect(filteredEntries).toEqual([ entries[3],entries[4] ]);
+    });
+
+    it('should filter by status as string', () => {
+      let filteredEntries = logEntries.filterByStatus({entries, status: '403'}).filteredEntries;
+      expect(filteredEntries).toEqual([ entries[4] ]);
+
+      filteredEntries = logEntries.filterByStatus({entries, status: /40[34]/}).filteredEntries;
+      expect(filteredEntries).toEqual([ entries[3],entries[4] ]);
+    });
+  });
+
   describe('filters can be chained', () => {
     let entries;
 
@@ -235,6 +288,21 @@ describe( 'logEntries module', () => {
           method: "Network.responseReceived",
           url: "www/testurl1?testparam1=1&testparam2=2"
         }),
+        mockEntryGenerator({
+          method: "Network.responseReceived",
+          url: "www/testurl2?testparam1=1&testparam2=2",
+          status: '200'
+        }),
+        mockEntryGenerator({
+          method: "Network.responseReceived",
+          url: "www/testurl4?testparam1=1&testparam2=2",
+          status: '200'
+        }),
+        mockEntryGenerator({
+          method: "Network.responseReceived",
+          url: "www/testurl4?testparam1=1&testparam2=2",
+          status: '302'
+        }),
       ]
     });
 
@@ -262,7 +330,7 @@ describe( 'logEntries module', () => {
 
     });
 
-    it('urlPart and method checking can be combined', () => {
+    it('should be able to combine filter types', () => {
       let matched = logEntries.filterEntries({ entries, urlPart: 'www/testurl1?testparam1=', method: 'Network.requestWillBeSent' });
       expect(matched).toEqual([ entries[0] ]);
     });
@@ -270,6 +338,12 @@ describe( 'logEntries module', () => {
     it('should filter query params as well', () => {
       let matched = logEntries.filterEntries({ entries, refParams: {testparam3: '3', testparam4: '4'} });
       expect(matched).toEqual([ entries[1] ]);
+
+    });
+
+    it('should filter status as well', () => {
+      let matched = logEntries.filterEntries({ entries, urlPart: 'www/testurl4', status: '200' });
+      expect(matched).toEqual([ entries[4] ]);
 
     });
   });

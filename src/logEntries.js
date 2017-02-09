@@ -88,10 +88,36 @@ const logEntries = {
 
   },
 
-  filterEntries ({entries = [], method, urlPart, refParams} = {}) {
+  filterByStatus ({ entries, status } = {}) {
+    if (!status) {
+      return Object.assign({}, this, {
+        filteredEntries: entries || this.filteredEntries
+      });
+    }
+
+    let filteredEntries = (
+      entries || this.filteredEntries || []
+    )
+    .filter( (entry) => {
+      return logEntry.matchStatus({ entry, status });
+    });
+
+    return Object.assign({}, this, {
+      filteredEntries
+    });
+  },
+
+  filterEntries ({
+    entries = [],
+    method,
+    urlPart,
+    refParams,
+    status
+  } = {}) {
     let matched = this.filterByMethod({ entries, method })
       .filterByUrlPart({ urlPart })
       .filterByRefParams({ refParams })
+      .filterByStatus({ status })
       .filteredEntries;
     if (matched.length) {
       return matched;
