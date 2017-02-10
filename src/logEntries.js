@@ -73,26 +73,18 @@ const logEntries = {
   },
 
   filterByRefParams ({ entries, refParams } = {}) {
-    if (!refParams) {
-      return Object.assign({}, this, {
-        filteredEntries: entries || this.filteredEntries
-      });
+    const currentEntries = this.getCurrentEntries({ entries });
+    let predicate;
+
+    if (refParams) {
+      predicate = entry => {
+        let parsedQuery = utils.getParsedQuery({
+          url: logEntry.getUrl({ entry }) 
+        });
+        return matches(refParams)(parsedQuery);
+      }
     }
-
-    let filteredEntries = (
-      entries || this.filteredEntries || []
-    )
-    .filter( (entry) => {
-      let parsedQuery = utils.getParsedQuery({
-        url: logEntry.getUrl({ entry }) 
-      });
-      return matches(refParams)(parsedQuery);
-    });
-
-    return Object.assign({}, this, {
-      filteredEntries
-    });
-
+    return this.getChainableClone({ filteredEntries: currentEntries, predicate });
   },
 
   filterByStatus ({ entries, status } = {}) {
