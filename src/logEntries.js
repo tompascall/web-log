@@ -47,22 +47,29 @@ const logEntries = {
     });
   },
 
-  filterByUrlPart ({ entries, urlPart = '' } = {}) {
-    if (!urlPart) {
-      return Object.assign({}, this, {
-        filteredEntries: entries || this.filteredEntries
-      });
-    }
-    let filteredEntries = (
-      entries || this.filteredEntries || []
-    )
-    .filter( (entry) => {
-      return logEntry.matchUrlPart({ entry, urlPart });
-    });
+  getCurrentEntries ({ entries }) {
+    return entries || this.filteredEntries;
+  },
 
-    return Object.assign({}, this, {
+  getChainableClone ({ filteredEntries, predicate }) {
+    let clone = Object.assign({}, this, {
       filteredEntries
     });
+    if (predicate) {
+      clone.filteredEntries = clone.filteredEntries.filter(predicate);
+    }
+    return clone;
+  },
+  
+  filterByUrlPart ({ entries, urlPart = '' } = {}) {
+    const currentEntries = this.getCurrentEntries({ entries });
+    let predicate;
+
+    if (urlPart) {
+      predicate = entry => logEntry.matchUrlPart({ entry, urlPart });
+    }
+
+    return this.getChainableClone({ filteredEntries: currentEntries, predicate });
   },
 
   filterByRefParams ({ entries, refParams } = {}) {
