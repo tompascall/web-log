@@ -92,20 +92,21 @@ Gets the raw performance log data. It is an array which contains **raw** entry o
 
 It gets raw entries and transforms the message part of the entry to a JSON format object. This method is ideal for getting all the log data, and after that you may want to filter entries with the filter utilities. **Getting entries clears the log content of the driver**, so you have to make all operation on entries data before getting log entries again. All the filters and matchers work on entries got by this method, but not on the raw entry data.
 
-#### filterEntries ({entries, method?, urlPart?, refParams?, status?}) : array of filtered entries or false if no match
+#### filterEntries ({entries, method?, urlPart?, refParams?, status?, predicate?}) : array of filtered entries or false if no match
 
 Yo can filter the entries quite comfortably with this method. If method, urlPart, status or refParam omitted, it gives back all entries with all methods etc.
 
-- method can be
+- **method** can be
   - 'Network.requestWillBeSent'
   - 'Network.requestServedFromCache'
   - 'Network.responseReceived'
   - 'Network.dataReceived'
   - 'Network.loadingFinished'
   - 'Network.loadingFailed'
-- urlPart can be a string or a regex
-- refParams is an object with params `{ param1: 'value1', param2: 'value2' }`. These are params you want to check if a given url query contains. You do not have to give all the params of url, just the ones you want to check.
-- status can be a string or a regex (it is only reasonable when method is responseReceived)
+- **urlPart** can be a string or a regex
+- **refParams** is an object with params `{ param1: 'value1', param2: 'value2' }`. These are params you want to check if a given url query contains. You do not have to give all the params of url, just the ones you want to check.
+- **status** can be a string or a regex (it is only reasonable when method is responseReceived)
+- **predicate** can be any filter function which works on entry (eg. `entry => { any function that returns boolean }`)
 
 ### logEntry
 
@@ -118,6 +119,10 @@ Get method of entry.
 #### getUrl ({ entry })
 
 Get url of entry.
+
+#### getStatus ({ entry })
+
+Get status of entry (checks only 'Network.responseReceived' methods).
 
 ## Demo
 

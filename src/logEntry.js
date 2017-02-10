@@ -29,16 +29,19 @@ const logEntry = {
       entry.message.params[mapMethodToAction[method]].url.search(urlPart) > -1;
   },
 
+  getStatus ({ entry }) {
+    // status is only reasonable if it is a response
+    return entry.message.params.response &&
+      entry.message.params.response.status;
+  },
+
   matchStatus ({ entry, status = '' } = {}) {
 
     if (typeof status === 'string') {
       status = escapeRegExp(status);
     }
-    // status is only reasonable if it is a response
-    return entry.message.params.response &&
-      entry.message.params.response.status &&
-
-      entry.message.params.response.status.search(status) > -1;
+    let logStatus = this.getStatus({ entry });
+    if (logStatus) return logStatus.search(status) > -1;
   },
 };
 

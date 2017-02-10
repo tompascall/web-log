@@ -239,6 +239,46 @@ describe( 'logEntries module', () => {
     });
   });
 
+  describe('filterByPredicate', () => {
+    let entries;
+
+    beforeAll( () => {
+      entries = [
+        mockEntryGenerator({
+          method: "Network.responseReceived",
+          url: "www/testurl1?testparam1=1&testparam2=2",
+        }),
+        mockEntryGenerator({
+          method: "Network.responseReceived",
+          url: "www/testurl3?testparam3=3&testparam4=4",
+        }),
+      ]
+    });
+
+    it('gives back all entries if predicate is not given', () => {
+      let filteredEntries = logEntries
+        .filterByPredicate( { entries })
+        .filteredEntries;
+
+      expect(filteredEntries).toEqual(entries);
+    });
+
+    it('filters by any predicate', () => {
+      let filteredEntries = logEntries
+        .filterByPredicate({
+          entries,
+          predicate: entry => {
+            let method = logEntry.getMethod({ entry });
+            let url = logEntry.getUrl({ entry });
+            return method.split('.')[1] + '--' + url.split('?')[0] === 'responseReceived--www/testurl3';
+          }
+        })
+        .filteredEntries;
+
+      expect(filteredEntries).toEqual([ entries[1] ]);
+    });
+  });
+
   describe('filters can be chained', () => {
     let entries;
 
@@ -344,6 +384,19 @@ describe( 'logEntries module', () => {
     it('should filter status as well', () => {
       let matched = logEntries.filterEntries({ entries, urlPart: 'www/testurl4', status: '200' });
       expect(matched).toEqual([ entries[4] ]);
+
+    });
+
+    it('should filter predicate as well', () => {
+      let matched = logEntries.filterEntries({
+        entries,
+        urlPart: 'www/testurl4',
+        predicate: entry => {
+          let status = logEntry.getStatus({ entry });
+          return +status === 302;
+        }
+      });
+      expect(matched).toEqual([ entries[5] ]);
 
     });
   });

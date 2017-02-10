@@ -59,7 +59,7 @@ const logEntries = {
     if (refParams) {
       predicate = entry => {
         let parsedQuery = utils.getParsedQuery({
-          url: logEntry.getUrl({ entry }) 
+          url: logEntry.getUrl({ entry })
         });
         return matches(refParams)(parsedQuery);
       }
@@ -80,12 +80,14 @@ const logEntries = {
     method,
     urlPart,
     refParams,
-    status
+    status,
+    predicate
   } = {}) {
     let matched = this.filterByMethod({ entries, method })
       .filterByUrlPart({ urlPart })
       .filterByRefParams({ refParams })
       .filterByStatus({ status })
+      .filterByPredicate({ predicate })
       .filteredEntries;
     if (matched.length) {
       return matched;
