@@ -28,25 +28,6 @@ const logEntries = {
     });
   },
 
-  filterByMethod ({entries, method} = {}) {
-    // we let flow through data if no method
-    // for chainability
-    if (!method) {
-      return Object.assign({}, this, {
-        filteredEntries: entries || this.filteredEntries
-      });
-    }
-    let filteredEntries = (
-      entries || this.filteredEntries || []
-    ).filter( (entry) => {
-      return entry.message.method === method;
-    });
-
-    return Object.assign({}, this, {
-      filteredEntries
-    });
-  },
-
   getCurrentEntries ({ entries }) {
     return entries || this.filteredEntries;
   },
@@ -60,22 +41,30 @@ const logEntries = {
     }
     return clone;
   },
-  
-  filterByUrlPart ({ entries, urlPart = '' } = {}) {
+
+  filterByPredicate ({ entries, predicate }) {
     const currentEntries = this.getCurrentEntries({ entries });
-    let predicate;
-
-    if (urlPart) {
-      predicate = entry => logEntry.matchUrlPart({ entry, urlPart });
-    }
-
     return this.getChainableClone({ filteredEntries: currentEntries, predicate });
   },
 
-  filterByRefParams ({ entries, refParams } = {}) {
-    const currentEntries = this.getCurrentEntries({ entries });
+  filterByMethod ({entries, method} = {}) {
     let predicate;
+    if (method) {
+      predicate = entry => entry.message.method === method;
+    }
+    return this.filterByPredicate({ entries, predicate });
+  },
 
+  filterByUrlPart ({ entries, urlPart = '' } = {}) {
+    let predicate;
+    if (urlPart) {
+      predicate = entry => logEntry.matchUrlPart({ entry, urlPart });
+    }
+    return this.filterByPredicate({ entries, predicate });
+  },
+
+  filterByRefParams ({ entries, refParams } = {}) {
+    let predicate;
     if (refParams) {
       predicate = entry => {
         let parsedQuery = utils.getParsedQuery({
@@ -84,17 +73,15 @@ const logEntries = {
         return matches(refParams)(parsedQuery);
       }
     }
-    return this.getChainableClone({ filteredEntries: currentEntries, predicate });
+    return this.filterByPredicate({ entries, predicate });
   },
 
   filterByStatus ({ entries, status } = {}) {
-    const currentEntries = this.getCurrentEntries({ entries });
     let predicate;
-
     if (status) {
       predicate = entry => logEntry.matchStatus({ entry, status });
     }
-    return this.getChainableClone({ filteredEntries: currentEntries, predicate });
+    return this.filterByPredicate({ entries, predicate });
   },
 
   filterEntries ({
