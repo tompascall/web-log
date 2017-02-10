@@ -88,22 +88,13 @@ const logEntries = {
   },
 
   filterByStatus ({ entries, status } = {}) {
-    if (!status) {
-      return Object.assign({}, this, {
-        filteredEntries: entries || this.filteredEntries
-      });
+    const currentEntries = this.getCurrentEntries({ entries });
+    let predicate;
+
+    if (status) {
+      predicate = entry => logEntry.matchStatus({ entry, status });
     }
-
-    let filteredEntries = (
-      entries || this.filteredEntries || []
-    )
-    .filter( (entry) => {
-      return logEntry.matchStatus({ entry, status });
-    });
-
-    return Object.assign({}, this, {
-      filteredEntries
-    });
+    return this.getChainableClone({ filteredEntries: currentEntries, predicate });
   },
 
   filterEntries ({
