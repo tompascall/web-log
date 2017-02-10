@@ -28,23 +28,14 @@ const logEntries = {
     });
   },
 
-  getCurrentEntries ({ entries }) {
-    return entries || this.filteredEntries;
-  },
-
-  getChainableClone ({ filteredEntries, predicate }) {
+  filterByPredicate ({ entries, predicate }) {
     let clone = Object.assign({}, this, {
-      filteredEntries
+      filteredEntries: entries || this.filteredEntries
     });
     if (predicate) {
       clone.filteredEntries = clone.filteredEntries.filter(predicate);
     }
     return clone;
-  },
-
-  filterByPredicate ({ entries, predicate }) {
-    const currentEntries = this.getCurrentEntries({ entries });
-    return this.getChainableClone({ filteredEntries: currentEntries, predicate });
   },
 
   filterByMethod ({entries, method} = {}) {
