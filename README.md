@@ -74,11 +74,11 @@ You'll get something like this:
 
 - Nodejs (at least v6.9)
 
-- For the moment the tool only works with [chromedriver](https://sites.google.com/a/chromium.org/chromedriver/getting-started). You have to install it if you haven't done yet.
+- For the moment the tool only works with [chromedriver](https://sites.google.com/a/chromium.org/chromedriver/getting-started)<sup>*</sup>. You have to install it if you haven't done yet.
 
-The logging interface supported by Selenium isn’t available in geckodriver (read more about this issue [here](https://github.com/mozilla/geckodriver/issues/284))
+- Clone the project and install npm packages.  
 
-- Clone the project and install npm packages.
+<sup>*</sup>The logging interface supported by Selenium isn’t available in geckodriver. read more about this issue [here](https://github.com/mozilla/geckodriver/issues/284).
 
 ## Usage
 
