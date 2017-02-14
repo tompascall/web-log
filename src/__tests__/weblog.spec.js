@@ -1,4 +1,4 @@
-import weblog from '../weblog';
+const weblog = require('../weblog');
 
 describe('weblog', () => {
   it('should be an object', () => {

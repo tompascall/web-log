@@ -1,8 +1,8 @@
-import mapMethodToAction from './mapMethodToAction';
-import driverUtil from '../driver/driver';
-import logEntry from './logEntry';
-import utils from './utils';
-import { matches } from 'lodash';
+const mapMethodToAction = require('./mapMethodToAction');
+const driverUtil = require('../driver/driver');
+const logEntry = require('./logEntry');
+const utils = require('./utils');
+const { matches } = require('lodash');
 
 const logEntries = {
 
@@ -96,4 +96,4 @@ const logEntries = {
   }
 };
 
-export default logEntries;
+module.exports = logEntries;

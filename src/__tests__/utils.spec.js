@@ -1,4 +1,4 @@
-import utils from '../utils';
+const utils = require('../utils');
 
 describe('utils', () => {
   describe('getParsedQuery', () => {

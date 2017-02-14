@@ -1,5 +1,5 @@
-import mapMethodToAction from './mapMethodToAction';
-import { escapeRegExp } from 'lodash';
+const mapMethodToAction = require('./mapMethodToAction');
+const { escapeRegExp } = require('lodash');
 
 const logEntry = {
   getStringifiedEntryMessageFromRawEntry (rawEntry) {
@@ -45,4 +45,4 @@ const logEntry = {
   },
 };
 
-export default logEntry;
+module.exports = logEntry;

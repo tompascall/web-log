@@ -1,4 +1,4 @@
-import mapMethodToAction from '../mapMethodToAction';
+const mapMethodToAction = require('../mapMethodToAction');
 
 const mockRawEntryGenerator = function ({ message } = {}) {
   return {
@@ -63,7 +63,7 @@ const mockDriver = {
   }
 };
 
-export {
+module.exports = {
   mockDriver,
   mockRawEntryGenerator,
   mockEntryGenerator

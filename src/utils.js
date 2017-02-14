@@ -1,4 +1,4 @@
-import nodeUrl from 'url';
+const nodeUrl = require('url');
 
 const utils = {
   getParsedQuery ({ url } = {}) {
@@ -6,4 +6,4 @@ const utils = {
   }
 };
 
-export default utils;
+module.exports = utils;

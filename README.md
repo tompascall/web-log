@@ -11,8 +11,7 @@ When you write e2e tests, sometimes you would like to check the network traffic 
 A solution for this problem can be getting and filtering the log entries extracted from selenium webdriver network log:
 
 ```js
-import weblog from '../{path of weblog project}/weblog';
-const { driverUtil, logEntries } = weblog;
+const { driverUtil, logEntries } = require('weblog');
 
 //  use your previously configured web driver instance, 
 //  or you can use the built-in driver config as below

@@ -1,5 +1,4 @@
-import weblog from '../src/weblog';
-const { driverUtil, logEntries } = weblog;
+const { driverUtil, logEntries } = require('../src/weblog');
 
 const driver = driverUtil.createDriver({type: 'chrome'});
 

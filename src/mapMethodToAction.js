@@ -3,4 +3,4 @@ const mapMethodToAction = {
   "Network.responseReceived": "response"
 };
 
-export default mapMethodToAction;
+module.exports = mapMethodToAction;

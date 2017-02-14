@@ -1,5 +1,5 @@
-import driverUtil from '../driver';
-import webdriver from 'selenium-webdriver';
+const driverUtil = require('../driver');
+const webdriver = require('selenium-webdriver');
 
 describe('driver', () => {
 

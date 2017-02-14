@@ -1,6 +1,6 @@
-import logEntries from '../logEntries';
-import logEntry from '../logEntry';
-import { mockDriver, mockRawEntryGenerator, mockEntryGenerator } from '../mocks/mocks';
+const logEntries = require('../logEntries');
+const logEntry = require('../logEntry');
+const { mockDriver, mockRawEntryGenerator, mockEntryGenerator } = require('../mocks/mocks');
 
 describe( 'logEntries module', () => {
 

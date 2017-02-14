@@ -1,6 +1,6 @@
-import logEntry from './logEntry';
-import logEntries from './logEntries';
-import driverUtil from '../driver/driver';
+const logEntry = require('./logEntry');
+const logEntries = require('./logEntries');
+const driverUtil = require('../driver/driver');
 
 const weblog = {
   logEntry,
@@ -8,4 +8,4 @@ const weblog = {
   driverUtil
 };
 
-export default weblog;
+module.exports = weblog;

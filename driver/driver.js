@@ -9,7 +9,6 @@ function getChromeDriverOptions () {
   return options;
 }
 
-
 const driverUtil = {
   getDriver ({ type, options } = {}) {
     return new webdriver.Builder()
@@ -45,5 +44,5 @@ const driverUtil = {
   },
 };
 
-export default driverUtil;
+module.exports = driverUtil;
 
