@@ -1,4 +1,4 @@
-const weblog = require('../weblog');
+const weblog = require('../web-log');
 
 describe('weblog', () => {
   it('should be an object', () => {

@@ -1,4 +1,4 @@
-const { driverUtil, logEntries } = require('../src/weblog');
+const { driverUtil, logEntries } = require('../src/web-log');
 
 const driver = driverUtil.createDriver({type: 'chrome'});
 

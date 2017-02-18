@@ -1,7 +1,7 @@
-![Build Status](https://travis-ci.org/tompascall/weblog.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/tompascall/weblog/badge.svg?branch=master)](https://coveralls.io/r/tompascall/weblog?branch=master)
+![Build Status](https://travis-ci.org/tompascall/web-log.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/tompascall/web-log/badge.svg?branch=master)](https://coveralls.io/r/tompascall/web-log?branch=master)
 
 
-# weblog
+# web-log
 ## e2e test utility for testing network traffic
 
 This utility helps you testing network traffic in your selenium e2e tests. 
@@ -11,7 +11,7 @@ When you write e2e tests, sometimes you would like to check the network traffic 
 A solution for this problem can be getting and filtering the log entries extracted from selenium webdriver network log:
 
 ```js
-const { driverUtil, logEntries } = require('weblog');
+const { driverUtil, logEntries } = require('web-log');
 
 //  use your previously configured web driver instance, 
 //  or you can use the built-in driver config as below
