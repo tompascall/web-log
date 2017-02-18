@@ -343,6 +343,16 @@ describe( 'logEntries module', () => {
           url: "www/testurl4?testparam1=1&testparam2=2",
           status: '302'
         }),
+        mockEntryGenerator({
+          method: "Network.responseReceived",
+          url: "www/duplicated?testparam5=5&testparam6=6",
+          status: '400'
+        }),
+        mockEntryGenerator({
+          method: "Network.responseReceived",
+          url: "www/duplicated?testparam5=5&testparam6=6",
+          status: '400'
+        }),
       ]
     });
 
@@ -398,6 +408,24 @@ describe( 'logEntries module', () => {
       });
       expect(matched).toEqual([ entries[5] ]);
 
+    });
+
+    it('should throw error if dupAlert option is set to true and there are duplications', () => {
+      let params = {
+        entries,
+        urlPart: 'duplicated'
+      };
+
+      function getMatchedWithoutError () {
+        return logEntries.filterEntries(params);
+      }
+
+      function getMatchedWithError () {
+        return logEntries.filterEntries(Object.assign(params, { dupAlert: true}));
+      }
+
+      expect(getMatchedWithoutError()).toEqual([ entries[6], entries[7] ]);
+      expect(getMatchedWithError).toThrow();
     });
   });
 });

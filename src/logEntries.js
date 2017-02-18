@@ -3,6 +3,7 @@ const driverUtil = require('../driver/driver');
 const logEntry = require('./logEntry');
 const utils = require('./utils');
 const { matches } = require('lodash');
+const { fgRed, fgGreen, fgYellow, reset } = utils.logColors;
 
 const logEntries = {
 
@@ -81,7 +82,8 @@ const logEntries = {
     urlPart,
     refParams,
     status,
-    predicate
+    predicate,
+    dupAlert
   } = {}) {
     let matched = this.filterByMethod({ entries, method })
       .filterByUrlPart({ urlPart })
@@ -89,10 +91,48 @@ const logEntries = {
       .filterByStatus({ status })
       .filterByPredicate({ predicate })
       .filteredEntries;
+
     if (matched.length) {
-      return matched;
+      if (!dupAlert) return matched;
+
+      if (matched.length > 1) {
+        throw new Error(this.getDuplicationAlertMessage({
+          args: arguments[0],
+          matched
+        }));
+      }
     }
     return false;
+  },
+
+  getDuplicationAlertMessage({ args, matched } = {}) {
+    let optionsMessage = this.getOptionsMessage({ params: args });
+    return (`
+${fgRed}There are duplications in filtered entries:${reset}
+
+${fgYellow}Filtered Entries:${reset}
+${JSON.stringify(matched)}
+
+${fgYellow}Filter options:${reset}
+${optionsMessage}
+`)
+  },
+
+  getOptionsMessage ({ params } = {}) {
+    let filledFilterParams = [];
+    for (let paramKey in params) {
+      if (params[paramKey] && paramKey !== 'entries') {
+        filledFilterParams.push({
+          name: paramKey,
+          value: params[paramKey]
+        });
+      }
+    }
+    let optionsMessage = '';
+    filledFilterParams.forEach( param => {
+      optionsMessage += `- ${param.name}: ${param.value}\n`;
+    });
+    return optionsMessage;
   }
 };
 
