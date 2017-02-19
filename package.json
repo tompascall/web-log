@@ -1,6 +1,6 @@
 {
   "name": "web-log",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "e2e test utility for testing network traffic",
   "main": "./src/web-log.js",
   "scripts": {
@@ -26,10 +26,10 @@
   "homepage": "https://github.com/tompascall/web-log#readme",
   "devDependencies": {
     "coveralls": "^2.11.15",
-    "jest": "^18.1.0",
-    "selenium-webdriver": "^3.0.1"
+    "jest": "^18.1.0"
   },
   "dependencies": {
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "selenium-webdriver": "^3.0.1"
   }
 }
