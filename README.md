@@ -186,7 +186,7 @@ logEntry module operates on single entry object.
 
 Get method of entry.
 
-````js
+```js
 const { logEntries, logEntry } = require('web-log');
 
 // getting entries
