@@ -1,6 +1,6 @@
 {
   "name": "web-log",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "e2e test utility for testing network traffic",
   "main": "./src/web-log.js",
   "scripts": {
