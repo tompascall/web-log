@@ -100,6 +100,28 @@ describe( 'logEntries module', () => {
       });
   });
 
+  describe('getRequests', () => {
+    let entries;
+
+    beforeAll( () => {
+      entries = [
+        mockEntryGenerator({
+          method: "Network.requestWillBeSent",
+          url: "www/testurl1"
+        }),
+        mockEntryGenerator({ method: "Network.loadingFailed"})
+      ]
+    });
+
+      it('filters requests', () => {
+          const reqs = logEntries.getRequests({ entries });
+          expect(Array.isArray(reqs)).toBe(true);
+          expect(reqs.length).toEqual(1);
+          expect(reqs[0]).toEqual({ url: 'www/testurl1'});
+      });
+      
+  });
+
   describe('filterByMethod', () => {
   let entries;
 

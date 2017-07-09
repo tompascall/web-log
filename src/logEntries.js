@@ -33,6 +33,10 @@ const logEntries = {
     return this.getLogEntries({ driver });
   },
 
+  getRequests ({ entries }) {
+      return entries.filter(entry => entry.message.params.request).map( entry => entry.message.params.request);
+  },
+
   filterByPredicate ({ entries, predicate }) {
     let clone = Object.assign({}, this, {
       filteredEntries: entries || this.filteredEntries
