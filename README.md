@@ -109,6 +109,14 @@ logEntries.getLogentries({ driver }).then( (entries) => {
 })
 ```
 
+#### clearLogEntries ({ driver }) : promise (result is an array)
+
+Utility function for clearing logEntries. It is a wrapper around `getLogEntries()` method.  
+
+#### getRequests ({ entries }) : Array
+
+Filters the request objects from entries.
+
 #### filterEntries ({entries, method?, urlPart?, refParams?, status?, predicate?, dupAlert?}) : array of filtered entries or false if no match
 
 It needs entries you got previously via `getLogentries()` method. You can filter the entries quite comfortably with the following options:
