@@ -29,6 +29,10 @@ const logEntries = {
     });
   },
 
+  clearLogEntries ({ driver } = {}) {
+    return this.getLogEntries({ driver });
+  },
+
   filterByPredicate ({ entries, predicate }) {
     let clone = Object.assign({}, this, {
       filteredEntries: entries || this.filteredEntries

@@ -90,6 +90,16 @@ describe( 'logEntries module', () => {
     });
   });
 
+  describe('clearEntries', () => {
+      it('calls getLogEntries with driver to clear entries', () => {
+          spyOn(logEntries, 'getLogEntries').and.callFake( () => Promise.resolve());
+          return logEntries.clearLogEntries({ driver: mockDriver })
+            .then( () => {
+                expect(logEntries.getLogEntries).toHaveBeenCalledWith({ driver: mockDriver });
+            });
+      });
+  });
+
   describe('filterByMethod', () => {
   let entries;
 
